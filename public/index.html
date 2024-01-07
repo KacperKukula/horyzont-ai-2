@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./output.css">
+    <title>Algorytm generyczny</title>
+</head>
+<body>
+      <div class="mx-auto w-full max-w-[550px]">
+        <form action="https://formbold.com/s/FORM_ID" method="POST">
+
+            <h1 class="text-3xl font-bold underline mt-6 mb-10 w-100 text-center">
+                Algorytm generyczny
+            </h1>
+
+            <div class="-mx-3 flex flex-wrap gap-2">
+
+                <!--EQUASION CONSIDER-->
+                <div class="w-full flex px-5 gap-6">
+                    <b>Equation under consideration:</b>
+                    <math><msup><mi>a x</mi><mn>3</mn></msup><mo>+</mo><msup><mi>b x</mi><mn>2</mn></msup><mo>+</mo><mi>c</mi><mo>+</mo><mi>d</mi></math>
+                </div>
+
+                <!--INPUT EQUASION-->
+                <div class="w-full px-5 mt-4">
+                    <b>Enter factors</b>
+                </div>
+                <div class="w-full flex gap-2 px-3">
+                    <input
+                        type="number"
+                        name="factorA"
+                        placeholder="Factor a"
+                        class="w-1/4 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    />
+                    <input
+                        type="number"
+                        name="factorB"
+                        placeholder="Factor b"
+                        class="w-1/4 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    />
+                    <input
+                        type="number"
+                        name="factorC"
+                        placeholder="Factor c"
+                        class="w-1/4 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    />
+                    <input
+                        type="number"
+                        name="factorD"
+                        placeholder="Factor d"
+                        class="w-1/4 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    />
+                    
+                </div>
+
+                <!--INPUT RATES-->
+                <div class="w-full px-5 mt-4">
+                    <b>Enter rates</b>
+                </div>
+                <div class="w-full flex px-6 gap-6">
+                    <div class="flex gap-4">
+                        <div class="flex items-center h-full">
+                            <math><msub><mi>P</mi><mn>k</mn></msub></math>
+                        </div>
+                        <input
+                            type="number"
+                            name="fName"
+                            placeholder="Crossing rate"
+                            class="w-60 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        />
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex items-center h-full">
+                            <math><msub><mi>P</mi><mn>m</mn></msub></math>
+                        </div>
+                        <input
+                            type="number"
+                            name="fName"
+                            placeholder="Mutation rate"
+                            class="w-60 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        />
+                    </div>
+                </div>
+
+                <div class="w-full px-3 sm:w-1/2">
+
+                    <!-- <input
+                        type="text"
+                        name="fName"
+                        id="fName"
+                        placeholder="First Name"
+                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    /> -->
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--SCRIPTS-->
+    <script src="./bundle.js" type="module"></script>
+</body>
+</html>
