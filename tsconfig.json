@@ -10,7 +10,11 @@
         "rootDir": "./src",
         "declaration": true,
         "sourceMap": true,
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"]
+        }
     },
     "include": [
         "src/**/*.ts"
