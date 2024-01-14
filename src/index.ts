@@ -1,7 +1,7 @@
-import { algorithmManager } from "./algorythmManager";
+import { algorithmManager } from "./algorithmManager";
 import { GenericParams } from "./algorythms/genericAlgorythm/model/genericParams";
 import { formUtils } from "./utils";
-import { GenericRun } from "./algorythms/genericAlgorythm/GenericRun";
+import { GenericFactors } from "@/algorythms/genericAlgorythm/model/GenericFactors";
 
 enum AlgorithmSelectors {
     FORM_ID = 'algorithmForm',
@@ -32,5 +32,5 @@ form?.addEventListener('submit', (event) => {
     const genericParams = new GenericParams(genericFactors, crossingRate, mutationRate);
 
     //Run algorithm
-    const algorithmRun = new GenericRun(genericParams);
+    const algorithmRun = algorithmManager.runGeneric(genericParams);
 });

@@ -5,3 +5,11 @@
 body {
   background-color: #f7fafc;
 }
+
+.output {
+
+  .period {
+    width: 100%;
+    height: 45px;
+  }
+}

@@ -5,9 +5,9 @@ export abstract class AlgorithmRun {
 
     public runPlan: AlgorithmStep[] = [];
         
-    public abstract run(alghorithmParams: AlghoritmParams): Promise<void>;
+    public abstract run(): any;
 
-    public abstract createRunPlan(alghorithmParams: AlghoritmParams): void;
+    //public abstract createRunPlan(alghorithmParams: AlghoritmParams): void;
 
     constructor() {
         this.runPlan = [];

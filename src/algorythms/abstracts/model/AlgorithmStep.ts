@@ -3,12 +3,12 @@ export class AlgorithmStep {
     private name: string;
     private description: string;
 
-    public runStep: () => void;
+    public run: Function;
 
-    constructor(name: string, description: string, runStep: () => Promise<void>) {
+    constructor(name: string, description: string, run: Function) {
         this.name = '';
         this.description = '';
-        this.runStep = () => { };
+        this.run = run;
     }
     get getName() {
         return this.name;
@@ -27,7 +27,7 @@ export class AlgorithmStep {
             console.error('runFunction is not a function');
             return;
         }
-        this.runStep ?? console.warn('runFunction is already set');
-        this.runStep = runFunction;
+        this.run ?? console.warn('runFunction is already set');
+        this.run = runFunction;
     }
 }

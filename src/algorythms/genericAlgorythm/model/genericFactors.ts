@@ -1,4 +1,4 @@
-class GenericFactors {
+export class GenericFactors {
 
     factorA: number;
     factorB: number;
