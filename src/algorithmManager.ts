@@ -19,6 +19,10 @@ class AlgorithmManager {
         const genericRun = new GenericRun(params, alghorithmLogger);
         genericRun.run();
     }
+
+    clear() {
+        alghorithmLogger.clear();
+    }
 }
 
 export const algorithmManager = AlgorithmManager.getInstance();

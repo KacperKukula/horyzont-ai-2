@@ -5,6 +5,7 @@ export class Chromosome {
     static MAX_BITS_NUMBER = 6;
 
     genBin: boolean[] = new Array(Chromosome.MAX_BITS_NUMBER).fill(false);
+    lenght: number = Chromosome.MAX_BITS_NUMBER;
 
     constructor(genDec: number) {
         // Get raw binary array

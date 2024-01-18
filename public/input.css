@@ -6,10 +6,30 @@ body {
   background-color: #f7fafc;
 }
 
-.output {
+#output {
+  background-color: #242424;
+  border-radius: 15px;
+  padding: 2rem 5rem;
+  color: white;
+}
 
-  .period {
-    width: 100%;
-    height: 45px;
-  }
+#output .period {
+  width: 100%;
+  height: 45px;
+}
+
+#output .header {
+  font-weight: bold;
+}
+
+#output .yellow {
+  color: #f6e05e;
+}
+
+#output .red {
+  color: #fc8181;
+}
+
+#output .green {
+  color: #68d391;
 }

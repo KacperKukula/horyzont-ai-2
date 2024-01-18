@@ -6,10 +6,10 @@ export class GenericFactors {
     factorD: number;
 
     constructor(A: number, B: number, C: number, D: number) {
-        this.factorA = A;
-        this.factorB = B;
-        this.factorC = C;
-        this.factorD = D;
+        this.factorA = A || 2;
+        this.factorB = B || 2;
+        this.factorC = C || 2;
+        this.factorD = D || 2;
 
         // Check if all factors are defined
         for (let key in this) {

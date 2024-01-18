@@ -10,12 +10,14 @@ export class GenericParams extends AlghoritmParams {
     factors: GenericFactors;
     crossingRate: number;
     mutationRate: number;
+    endWeight: number;
 
-    constructor(facors: GenericFactors, crossingRate: number, mutationRate: number) {
+    constructor(facors: GenericFactors, crossingRate: number, mutationRate: number, endWeight: number) {
         super();
         this.factors = facors;
         this.crossingRate = crossingRate;
         this.mutationRate = mutationRate;
+        this.endWeight = endWeight;
 
         for (let key in this) {
             if (typeof this[key] === 'function' && this[key] === undefined) {
@@ -24,16 +26,7 @@ export class GenericParams extends AlghoritmParams {
         }
     }
 
-    getFactors(): GenericFactors {
+    get getFactors(): GenericFactors {
         return this.factors;
     }
-
-    // validate() {
-    //     const errors = [];
-    //     for (let key in this) {
-    //         if (typeof this[key] !== 'function' || this[key]) {
-                
-    //         }
-    //     }
-    // }
 }

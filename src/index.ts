@@ -11,6 +11,7 @@ enum AlgorithmSelectors {
     FACTOR_B = 'factorB',
     FACTOR_C = 'factorC',
     FACTOR_D = 'factorD',
+    END_WEIGHT = 'endWeight'
 }
 
 const form: HTMLFormElement | null = document.querySelector(`form#${AlgorithmSelectors.FORM_ID}`);
@@ -28,9 +29,16 @@ form?.addEventListener('submit', (event) => {
     const factorC = formUtils.getInputNumber(form, AlgorithmSelectors.FACTOR_C);
     const factorD = formUtils.getInputNumber(form, AlgorithmSelectors.FACTOR_D);
 
+    const endWeight = formUtils.getInputNumber(form, AlgorithmSelectors.END_WEIGHT);
+
     const genericFactors = new GenericFactors(factorA, factorB, factorC, factorD);
-    const genericParams = new GenericParams(genericFactors, crossingRate, mutationRate);
+    const genericParams = new GenericParams(genericFactors, crossingRate, mutationRate, endWeight);
 
     //Run algorithm
-    const algorithmRun = algorithmManager.runGeneric(genericParams);
+    const algorithmRun = genericParams ? algorithmManager.runGeneric(genericParams) : '';
+});
+
+form?.addEventListener('reset', (event) => {
+    event.preventDefault();
+    algorithmManager.clear();
 });
