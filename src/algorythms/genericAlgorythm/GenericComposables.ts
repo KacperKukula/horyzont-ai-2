@@ -7,16 +7,15 @@ import { AlghorithmLogger } from "@/alghorithmLogger";
 export function genSelection(genomRef: Chromosome[], loggerRef: AlghorithmLogger, genericParams: GenericParams) {
     const adjusts: number[] = [];
 
-    loggerRef.yellowLog('Selection started ...');
-
+    loggerRef.yellowLog('🫴 Selection started ...');
     genomRef.forEach((gen, inx, arr) => {
         adjusts.push(countAdjustment(gen.getGenDec(), genericParams.getFactors));
     })
 
-    loggerRef.log('Adjustment: ');
+    loggerRef.log('⭐ Adjustment: ');
     adjusts.forEach((adjust, inx) => {
         const gen = genomRef[inx];
-        loggerRef.log(`${gen.getGenDec()} -> ${adjust}`);
+        loggerRef.log(`For: ${gen.getGenDec()} adjust equals ${adjust}`);
     });
 
     const adjustSum: number = Array.from(adjusts.values()).reduce((acc, adjust) => acc + adjust, 0);
