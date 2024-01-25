@@ -52,12 +52,12 @@ export class GenericRun {
             genSelection(this.genom, this.logger, this.genericParams);
             this.showExtendedGenom(`Genom after operation:`);
         });
-        // this.runPlan.push(() => {
-        //     genCrossing(this.genom, this.logger, this.genericParams.crossingRate);
-        // });
-        // this.runPlan.push(() => {
-        //     genMutation(this.genom, this.logger, this.genericParams.mutationRate);
-        // });
+        this.runPlan.push(() => {
+            genCrossing(this.genom, this.logger, this.genericParams.crossingRate);
+        });
+        this.runPlan.push(() => {
+            genMutation(this.genom, this.logger, this.genericParams.mutationRate);
+        });
         this.runPlan.push(() => {
             this.iterations++;
             this.checkCondition();
