@@ -6,10 +6,16 @@ import { AlghorithmLogger } from "@/alghorithmLogger";
 
 export function genSelection(genomRef: Chromosome[], loggerRef: AlghorithmLogger, genericParams: GenericParams) {
     const adjusts: number[] = [];
+    const adjustsPeriod: number[] = [0];
+    const genSnapShot = Object.assign({}, genomRef);
 
     loggerRef.yellowLog('🫴 Selection started ...');
     genomRef.forEach((gen, inx, arr) => {
+        //Add adjustment to array
         adjusts.push(countAdjustment(gen.getGenDec(), genericParams.getFactors));
+
+        //Add period to array
+        adjustsPeriod.push(adjustsPeriod[inx] + adjusts[inx]);
     })
 
     loggerRef.log('⭐ Adjustment: ');
@@ -26,22 +32,15 @@ export function genSelection(genomRef: Chromosome[], loggerRef: AlghorithmLogger
         shots.push(getRandom(0, adjustSum));
     }
 
-    //Get new genom
-    const result: Chromosome[] = shots.map(shot => {
-        let adjustPeriod: number = 0;
-        let chosenGenom: Chromosome = genomRef[0];
-        for(let i = 0; i < genomRef.length; i++) {
-            adjustPeriod += adjusts[i];
-            if(shot < adjustPeriod) {
-                chosenGenom = genomRef[i];
-                break;
-            }
-        }
-        return chosenGenom;
+    //Change genoms
+    shots.forEach((shot, shotInx) => {
+        const genInx = adjustsPeriod.findIndex((period, inx, periods) => period < shot && shot <= periods[inx+1]);
+        genomRef[shotInx] = genSnapShot[genInx];
     });
 
-    loggerRef.log('Selection ended');
-    return result;
+    //Log all things
+    console.log(adjusts, shots)
+    loggerRef.logPeriod(adjusts, shots, adjustSum);
 }
 
 /**
@@ -52,21 +51,31 @@ export function genSelection(genomRef: Chromosome[], loggerRef: AlghorithmLogger
  * @returns 
  */
 export function genCrossing(genomRef: Chromosome[], loggerRef: AlghorithmLogger, crossingRate: number) {
-    loggerRef.yellowLog('Crossing started ...');
+    loggerRef.yellowLog('❎ Crossing started ...');
 
     for(let i=0; i < genomRef.length; i+=2) {
-        const posibility = Math.random() < crossingRate;
+        const random = parseFloat(Math.random().toFixed(2));
+        const posibility = random < crossingRate;
 
         if(genomRef[i+1] && posibility) {
             const lotus = getRandom(1, genomRef[i].lenght - 1);
+
+            const prevGenomFirst: string = genomRef[i].getGenBinString();
+            const prevGenomSecond: string = genomRef[i+1].getGenBinString();
     
             const genTailFirst = genomRef[i].genBin.slice(lotus);
             const genTailSecond = genomRef[i+1].genBin.slice(lotus);
 
             genomRef[i].genBin = genomRef[i].genBin.slice(0, lotus).concat(genTailSecond);
             genomRef[i+1].genBin = genomRef[i+1].genBin.slice(0, lotus).concat(genTailFirst);
+
+            loggerRef.greenLog(`Gen ${genomRef[i].getGenBinString()} crossed. Pk = ${random} >= ${crossingRate}`);
+            loggerRef.log(`Gen Chr${i} crossed with Chr${i+1} with ${lotus} lotus.`);
+            loggerRef.log(`${prevGenomFirst} changed to ${genomRef[i].getGenBinString()}`);
+            loggerRef.log(`${prevGenomSecond} changed to ${genomRef[i+1].getGenBinString()}`);
+            
         } else {
-            loggerRef.redLog(`Gen ${genomRef[i].getGenBinString()} not crossed`);
+            loggerRef.redLog(`Gen Chr${i} and Chr${i+1} not crossed. Pk => ${random} < ${crossingRate}`);
         }
     }
 }
@@ -78,21 +87,26 @@ export function genCrossing(genomRef: Chromosome[], loggerRef: AlghorithmLogger,
  * @returns 
  */
 export function genMutation(genomRef: Chromosome[], loggerRef: AlghorithmLogger, mutatingRate: number): void {
-    loggerRef.yellowLog('Mutation started ...');
+    loggerRef.yellowLog('🦆 Mutation started ...');
 
-    genomRef.forEach(gen => {
+    genomRef.forEach((gen, inx) => {
         const lotus = getRandom(0, gen.lenght - 1);
-        const posibility = Math.random() < mutatingRate;
+        const random = parseFloat(Math.random().toFixed(2));
+        const posibility = random < mutatingRate;
         if(posibility) {
-            gen.genBin[lotus] = !gen.genBin[lotus];
+            const previousGen = gen.getGenBinString();
+
+            genomRef[inx].genBin[lotus] = !gen.genBin[lotus];
+
+            loggerRef.greenLog(`Gen Chr${inx}: ${previousGen} mutated. Pm = ${random} <= ${mutatingRate}`);
+            loggerRef.log(`Previous: ${previousGen} changed to ${gen.getGenBinString()}. Lotus ${lotus}`);
         } else {
-            loggerRef.redLog(`Gen ${gen.getGenBinString()} not mutated`);
+            loggerRef.redLog(`Gen Chr${inx} ${gen.getGenBinString()} not mutated. P => ${random} > ${mutatingRate}`);
         }
     });
 }
 
 /* CORE UTILS */
-
 export function countSumOfAdjustments(genomRef: Chromosome[], genericParams: GenericParams): number {
     return genomRef.reduce((acc, gen) => acc + countAdjustment(gen.getGenDec(), genericParams.getFactors), 0);
 }

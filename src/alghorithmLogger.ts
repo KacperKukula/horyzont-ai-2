@@ -1,4 +1,6 @@
 import { Logger } from "./algorythms/abstracts/Logger";
+import { PeriodDiagram } from "./dataView/periodDiagram/PeriodDiagram";
+import { PeriodDiagramData } from "./dataView/periodDiagram/model/PeriodDiagramData";
 
 export class AlghorithmLogger extends Logger {
 
@@ -46,9 +48,15 @@ export class AlghorithmLogger extends Logger {
             : console.warn('Logger output not found');
     }
 
-    logPeriod(periods: number[], shots: number[]) {
-        const div = document.createElement('div');
-        div.classList.add('period');
+    logPeriod(periods: number[], shots: number[], fullAdjust: number) {
+        const diagramRenderer = new PeriodDiagram(
+            new PeriodDiagramData(periods, shots),
+            fullAdjust
+        );
+
+        console.log(diagramRenderer.generateRandomPeriods());
+        
+        this.log(diagramRenderer.generateRandomPeriods());
     }
 
     clear() {

@@ -6,16 +6,12 @@ body {
   background-color: #f7fafc;
 }
 
+/* Output  classes*/
 #output {
   background-color: #242424;
   border-radius: 15px;
   padding: 2rem 5rem;
   color: white;
-}
-
-#output .period {
-  width: 100%;
-  height: 45px;
 }
 
 #output .header {
@@ -32,4 +28,26 @@ body {
 
 #output .green {
   color: #68d391;
+}
+
+#output .periodDiagram {
+  margin: 10px 0;
+  width: 100%;
+  height: 45px;
+  position: relative;
+  background-color: red;
+}
+
+#output .period {
+  height: 100%;
+  position: absolute;  
+}
+
+#output .shot {
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background-color: red; 
+  border-radius: 2px;
+  position: absolute;
 }

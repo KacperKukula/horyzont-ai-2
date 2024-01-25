@@ -14,7 +14,7 @@ export class Chromosome {
     }
 
     getGenBinString(): string {
-        return this.genBin.map(bit => bit ? 1 : 0).join(' ');
+        return this.genBin.map(bit => bit ? 1 : 0).join('');
     }
 
     getGenDec(): number {

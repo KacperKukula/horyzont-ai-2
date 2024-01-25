@@ -23,6 +23,7 @@ export class GenericRun {
     }
 
     async run() {
+        this.logger.clear();
         this.running = true;
 
         this.logHeaderProgramStarted()
@@ -33,8 +34,7 @@ export class GenericRun {
 
         let runIterator: number = 0;
 
-        for(let i = 1; this.running; i++) {
-
+        while(this.running) {
             if(this.runPlan[runIterator]) {
                 this.runPlan[runIterator]();
                 runIterator++;
@@ -42,28 +42,25 @@ export class GenericRun {
                 runIterator = 0;
             }
 
-            this.genom = this.checkCondition();
-            
-            // Show genom for each iteration
-            this.showExtendedGenom(`Genom after ${i} iteration`);
-
+            this.showExtendedGenom('Genom: ');
         }
     }
 
     createRunPlan() {
         this.runPlan = [];
         this.runPlan.push(() => {
-            this.genom = genSelection(this.genom, this.logger, this.genericParams);
+            genSelection(this.genom, this.logger, this.genericParams);
+            this.showExtendedGenom(`Genom after operation:`);
         });
+        // this.runPlan.push(() => {
+        //     genCrossing(this.genom, this.logger, this.genericParams.crossingRate);
+        // });
+        // this.runPlan.push(() => {
+        //     genMutation(this.genom, this.logger, this.genericParams.mutationRate);
+        // });
         this.runPlan.push(() => {
-            genCrossing(this.genom, this.logger, this.genericParams.crossingRate);
-        });
-        this.runPlan.push(() => {
-            genMutation(this.genom, this.logger, this.genericParams.crossingRate);
-        });
-        this.runPlan.push(() => {
-            this.checkCondition();
             this.iterations++;
+            this.checkCondition();
             this.running = false;
         });
     }
@@ -83,8 +80,8 @@ export class GenericRun {
 
     showExtendedGenom(message: string = 'Genom:'): void {
         this.logger.log(message);
-        this.genom.forEach(gen => {
-            const line = gen.getGenBinString() + ' -> ' + gen.getGenDec();
+        this.genom.forEach((gen, inx) => {
+            const line = `Chr${inx}: ` + gen.getGenBinString() + ' | in dec: ' + gen.getGenDec();
             this.logger.log(line);
         })
     }
@@ -96,18 +93,30 @@ export class GenericRun {
     }
 
     checkCondition() {
-        const genSet = new Set<Chromosome>();
-        const sumAdjust = countSumOfAdjustments(this.genom, this.genericParams);
+        let allSame = this.genom.every((chromosome, i, arr) => i === 0 || chromosome === arr[i - 1]);
 
-        if(this.genericParams.endWeight < countSumOfAdjustments(this.genom, this.genericParams)) 
+        if(allSame) {
             this.running = false;
-        
-        const message = this.running
-            ? `End condition not met. ${sumAdjust} is not less than ${this.genericParams.endWeight}`
-            : `End condition met. ${sumAdjust} is less than ${this.genericParams.endWeight}`;
-        this.logCheckingEndCondition(message, this.running);
+            this.logger.greenLog(`🥳 End condition met. Genoms are the same. We found it!`);
+        } else {
+            this.logger.redLog(`End condition not met. Genoms aren't the same`);
+        }
 
-        return [...genSet];
+        if(this.iterations > 50) {
+            this.running = false;
+            this.logger.redLog(`End condition not met. Iterations limit reached.`);
+        }
+
+
+        // const sumAdjust = countSumOfAdjustments(this.genom, this.genericParams);
+
+        // if(this.genericParams.endWeight < countSumOfAdjustments(this.genom, this.genericParams)) 
+        //     this.running = false;
+        
+        // const message = this.running
+        //     ? `End condition not met. ${sumAdjust} is not less than ${this.genericParams.endWeight}`
+        //     : `End condition met. ${sumAdjust} is less than ${this.genericParams.endWeight}`;
+        // this.logCheckingEndCondition(message, this.running);
     }
     
     /* LOG SNIPPS */
@@ -118,7 +127,7 @@ export class GenericRun {
         this.logger.logHeader('----------------------------------------------------------------------');
         this.logger.logHeader('Params:');
         this.logger.logHeader('Factors: A: ' + factors.factorA + ' B: ' + factors.factorA + ' C: ' + factors.factorC + ' D: ' + factors.factorD);
-        this.logger.logHeader('Counting for: ' + factors.factorA + ' * x^3 + ' + factors.factorA + ' C: ' + factors.factorC + ' D: ' + factors.factorD);
+        this.logger.logHeader('Counting for: ' + factors.factorA + ' * x^3 + ' + factors.factorB + ' x^2: ' + factors.factorC + ' x ' + factors.factorD);
         this.logger.logHeader('Crossing posibility: ' + this.genericParams.crossingRate + ' | Mutation posibility: ' + this.genericParams.mutationRate);
         this.logger.logHeader('End weight: ' + this.genericParams.endWeight);
         this.logger.logHeader('----------------------------------------------------------------------');
